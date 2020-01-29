@@ -156,7 +156,7 @@ trainer = setka.base.Trainer(
 )
 
 
-trainer.run_train(10)
+trainer.run_train(n_epochs=10)
 ```
 
 
