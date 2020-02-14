@@ -37,7 +37,6 @@ class MakeCheckpoints(Pipe):
                  subset='valid',
                  max_mode=False,
                  name='checkpoint',
-                 log_dir='./',
                  keep_best_only=True):
 
         self.best_metric = None
@@ -46,24 +45,19 @@ class MakeCheckpoints(Pipe):
         self.name = name
         self.subset = subset
         self.set_priority(1000)
-        self.log_dir = log_dir
 
         self.keep_best_only=keep_best_only
-
-        if not os.path.exists(os.path.join(self.log_dir, 'checkpoints')):
-            os.makedirs(os.path.join(self.log_dir, 'checkpoints'))
 
 
     def on_init(self):
         self.log_dir = os.path.join(
-            self.log_dir,
             'logs',
+            'checkpoints',
             self.name,
             str(self.trainer.creation_time)
         )
 
-        if not os.path.exists(os.path.join(self.log_dir, 'checkpoints')):
-            os.makedirs(os.path.join(self.log_dir, 'checkpoints'))
+        os.makedirs(os.path.join(self.log_dir, 'checkpoints'),  exist_ok=True)
 
     def before_epoch(self):
         '''
